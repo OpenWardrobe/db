@@ -1,0 +1,34 @@
+name: Test Supabase Start
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-supabase:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Install Supabase CLI
+        run: |
+          curl -fsSL https://deb.supabase.com/setup | sudo sh
+          sudo apt install supabase-cli
+
+      - name: 🏗 Start Supabase Services
+        run: |
+          supabase start || (echo "❌ Supabase start failed!" && exit 1)
+
+      - name: ✅ Verify Supabase Is Running
+        run: |
+          supabase status || (echo "❌ Supabase is not running!" && exit 1)
+
+      - name: 🧹 Stop Supabase Services
+        run: |
+          supabase stop

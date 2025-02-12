@@ -15,7 +15,6 @@ SELECT
 FROM item_category c
 LEFT JOIN wardrobe_item w2 ON w2.category_id = c.id
 GROUP BY c.id, c.name, w2.user_id;
-
 CREATE OR REPLACE FUNCTION get_user_category_summary()
 RETURNS TABLE (
     category_id uuid,
@@ -27,6 +26,13 @@ RETURNS TABLE (
 LANGUAGE sql
 SECURITY DEFINER
 AS $$
-    SELECT * FROM v_user_category_summary WHERE user_id = auth.uid();
+    SELECT 
+        category_id,
+        category_name,
+        user_id,
+        item_count,
+        category_image
+    FROM v_user_category_summary 
+    WHERE user_id = auth.uid();
 $$;
 

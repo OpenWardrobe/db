@@ -16,10 +16,11 @@ jobs:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
 
-      - name: 📦 Install Supabase CLI
+      - name: 📦 Install Supabase CLI (Manual Download)
         run: |
-          curl -fsSL https://deb.supabase.com/setup | sudo sh
-          sudo apt install supabase-cli
+          curl -L https://github.com/supabase/cli/releases/latest/download/supabase-linux-amd64 -o supabase
+          chmod +x supabase
+          sudo mv supabase /usr/local/bin/
 
       - name: 🏗 Start Supabase Services
         run: |

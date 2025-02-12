@@ -13,23 +13,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout Repository
-        uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: 📦 Install Supabase CLI (Manual Download)
-        run: |
-          curl -L https://github.com/supabase/cli/releases/latest/download/supabase-linux-amd64 -o supabase
-          chmod +x supabase
-          sudo mv supabase /usr/local/bin/
+      - name: Set Up Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
 
-      - name: 🏗 Start Supabase Services
+      - name: Start Supabase Services
         run: |
-          supabase start || (echo "❌ Supabase start failed!" && exit 1)
-
-      - name: ✅ Verify Supabase Is Running
-        run: |
-          supabase status || (echo "❌ Supabase is not running!" && exit 1)
-
-      - name: 🧹 Stop Supabase Services
-        run: |
-          supabase stop
+          supabase start
